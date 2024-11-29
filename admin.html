@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css"/>
+    <title>Admin Dashboard</title>
+    <style>
+        .header {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 15px;
+            border-bottom: 2px solid #0056b3;
+        }
+
+        .header .navbar-brand {
+            color: #ffffff;
+            font-size: 1.5rem;
+        }
+
+        .header .btn-logout {
+            background-color: #dc3545;
+            color: #ffffff;
+            border: none;
+            border-radius: 20px;
+        }
+
+        .header .btn-logout:hover {
+            background-color: #c82333;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="header navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">Admin Dashboard</a>
+        <div class="ml-auto">
+           <a href="login.html"> <button   class="btn btn-logout" id="btnLogout">Salir</button></a>
+        </div>
+    </nav>
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-body rounded">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="especialidades-tab" data-bs-toggle="tab" href="#especialidades" role="tab" aria-controls="especialidades" aria-selected="true">Especialidades</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="doctores-tab" data-bs-toggle="tab" href="#doctores" role="tab" aria-controls="doctores" aria-selected="false">Doctores</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="citas-tab" data-bs-toggle="tab" href="#citas" role="tab" aria-controls="citas" aria-selected="false">Citas</a>
+            </li>
+        </ul>
+
+        <!-- Tab content -->
+        <div class="tab-content" id="dashboardTabsContent">
+            <div class="tab-pane fade show active" id="especialidades" role="tabpanel" aria-labelledby="especialidades-tab">
+                <button id="btnCrear" type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#ModalEspecialidades">Crear Especialidad</button>
+
+                <table id="Especialidades" class="table mt-2 table-bordered table-striped">
+                    <thead>
+                    <tr class="text-center">
+                        <th>ID</th>
+                        <th>Especialidad</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="doctores" role="tabpanel" aria-labelledby="doctores-tab">
+                <button id="btnCrearDoctor" type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#ModalDoctores">Crear Doctor</button>
+
+                <table id="Doctores" class="table mt-2 table-bordered table-striped">
+                    <thead>
+                    <tr class="text-center">
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Correo</th>
+                        <th>Especialidad</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="citas" role="tabpanel" aria-labelledby="citas-tab">
+                <button id="btnFiltrar" type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#ModalFiltrarCitas">Filtrar Citas</button>
+
+                <table id="Citas" class="table mt-2 table-bordered table-striped">
+                    <thead>
+                    <tr class="text-center">
+                        <th>Paciente</th>
+                        <th>Fecha</th>
+                        <th>Doctor</th>
+                        <th>Especialidad</th>
+                        <th>Usuario</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para crear especialidad -->
+    <div id="ModalEspecialidades" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Especialidad</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEspecialidades">
+                        <div class="mb-3">
+                            <label for="Especialidad" class="col-form-label">Especialidad:</label>
+                            <input type="text" class="form-control" id="Especialidad">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" id="guardarEspecialidad">Guardar</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para crear/editar doctor -->
+    <div id="ModalDoctores" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Doctor</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formDoctores">
+                        <div class="mb-3">
+                            <label for="NombreDoctor" class="col-form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="NombreDoctor">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ApellidoDoctor" class="col-form-label">Apellido:</label>
+                            <input type="text" class="form-control" id="ApellidoDoctor">
+                        </div>
+                        <div class="mb-3">
+                            <label for="CorreoDoctor" class="col-form-label">Correo:</label>
+                            <input type="email" class="form-control" id="CorreoDoctor">
+                        </div>
+                        <div class="mb-3">
+                            <label for="EspecialidadDoctor" class="col-form-label">Especialidad:</label>
+                            <input class="form-control" id="EspecialidadDoctor" type="text">
+                                <!-- Opciones se llenarán dinámicamente -->
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" id="guardarDoctor">Guardar</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para filtrar citas -->
+    <div id="ModalFiltrarCitas" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Filtrar Citas</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formFiltrarCitas">
+                        <div class="mb-3">
+                            <label for="DoctorCita" class="col-form-label">Doctor:</label>
+                            <select class="form-control" id="DoctorCita">
+                                <!-- Opciones se llenarán dinámicamente -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="EspecialidadCita" class="col-form-label">Especialidad:</label>
+                            <select class="form-control" id="EspecialidadCita">
+                                <!-- Opciones se llenarán dinámicamente -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="FechaCita" class="col-form-label">Fecha:</label>
+                            <input type="date" class="form-control" id="FechaCita">
+                        </div>
+                        <div class="mb-3">
+                            <label for="UsuarioCita" class="col-form-label">Usuario:</label>
+                            <select class="form-control" id="UsuarioCita">
+                                <!-- Opciones se llenarán dinámicamente -->
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" id="filtrarCitas">Filtrar</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    <script src="./js/admin.js"></script>
+    <script src="./js/doctores.js"></script>
+    <script src="./js/citas.js"></script>
+</body>
+</html>
